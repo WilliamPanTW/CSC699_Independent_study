@@ -1,0 +1,5 @@
+train: D:\CSC699_Independent_study\application\yolov8\train
+val: D:\CSC699_Independent_study\application\yolov8\val
+
+nc: 1  # Number of classes
+names: ['slate']  # List of class names
