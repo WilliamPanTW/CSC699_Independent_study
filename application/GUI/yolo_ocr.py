@@ -1,8 +1,66 @@
-import easyocr
+from ultralytics import YOLO
 import cv2
-from matplotlib import pyplot as plt
+import os
 import numpy as np
+import easyocr
+from matplotlib import pyplot as plt
 
+# Load the YOLOv8 model
+model = YOLO(r'D:\CSC699_Independent_study\application\yolov8\yolov8_custom.pt')
+
+# Path to the video file
+video_path = r"D:\CSC699_Independent_study\application\GUI\MVI_7029.MP4"
+
+# Path to save the final frame
+save_dir = r"D:\CSC699_Independent_study\application\GUI"
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)  # Create directory if it doesn't exist
+
+# Open the video file
+cap = cv2.VideoCapture(video_path)
+
+# Initialize variables
+frame_number = 0
+best_frame = None
+best_confidence = 0  # Track the highest confidence
+best_box = None
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Run YOLO model on the current frame
+    results = model.predict(source=frame, conf=0.5)
+    current_boxes = results[0].boxes.xyxy.cpu().numpy()  # Get bounding box coordinates
+    current_confidences = results[0].boxes.conf.cpu().numpy()  # Get confidence scores
+    
+    # Find the highest confidence detection in this frame
+    if len(current_confidences) > 0:
+        max_conf_idx = np.argmax(current_confidences)
+        max_conf = current_confidences[max_conf_idx]
+        
+        # Update the best frame if this frame has the highest confidence detection so far
+        if max_conf > best_confidence:
+            best_confidence = max_conf
+            best_frame = frame
+            best_box = current_boxes[max_conf_idx]  # Get the bounding box for the highest confidence
+    
+    frame_number += 1
+
+# Save the best frame with the highest confidence score
+if best_frame is not None:
+    save_path = os.path.join(save_dir, f"best_frame.jpg")
+    cv2.imwrite(save_path, best_frame)
+    print(f"Saved the best frame with the highest confidence score at: {save_path}")
+    print(f"Bounding Box: {best_box}, Confidence: {best_confidence}")
+else:
+    print("No suitable frame found.")
+
+# Release video capture
+cap.release()
+
+# Now, process the saved best frame with EasyOCR
 # Function to calculate the center of a bounding box
 def calculate_center(box):
     # Get top-left and bottom-right points of the box
@@ -16,13 +74,11 @@ def calculate_center(box):
 def calculate_distance(point1, point2):
     return np.linalg.norm(point1 - point2)
 
-# Specify the image path
-image_path = 'D:\\CSC699_Independent_study\\application\\OCR\\12.jpg'
-
 # Initialize the EasyOCR reader for English
 reader = easyocr.Reader(['en'], gpu=True)
 
-# Read the text from the image
+# Read the text from the best frame (saved image)
+image_path = save_path
 result = reader.readtext(image_path)
 
 # Print the result for debugging
@@ -47,7 +103,7 @@ for detection in result:
     # Calculate the center of the bounding box
     center = calculate_center(box)
 
-    # Check if the text is 'SCENE', 'ROLL', or 'TaKE' and store the positions
+    # Check if the text is 'SCENE', 'ROLL', or 'TAKE' and store the positions
     if 'SCENE' in text.upper():
         scene_position = center
     elif 'ROLL' in text.upper():

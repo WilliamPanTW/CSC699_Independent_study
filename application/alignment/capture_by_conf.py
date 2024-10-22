@@ -7,10 +7,10 @@ import numpy as np
 model = YOLO(r'D:\CSC699_Independent_study\application\yolov8\yolov8_custom.pt')
 
 # Path to the video file
-video_path = r"D:\CSC699_Independent_study\application\yolov8\SLATE.mp4"
+video_path = r"D:\CSC699_Independent_study\application\GUI\MVI_7029.MP4"
 
 # Path to save the final frame
-save_dir = r"D:\CSC699_Independent_study\application\yolov8\results"
+save_dir = r"D:\CSC699_Independent_study\application\GUI"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)  # Create directory if it doesn't exist
 
@@ -48,7 +48,7 @@ while cap.isOpened():
 
 # Save the best frame with the highest confidence score
 if best_frame is not None:
-    save_path = os.path.join(save_dir, f"best_frame_highest_confidence.jpg")
+    save_path = os.path.join(save_dir, f"test.jpg")
     cv2.imwrite(save_path, best_frame)
     print(f"Saved the best frame with the highest confidence score at: {save_path}")
     print(f"Bounding Box: {best_box}, Confidence: {best_confidence}")

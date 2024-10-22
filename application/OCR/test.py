@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 # Specify the image path
-image_path = '12.jpg'
+image_path = r'D:\CSC699_Independent_study\application\OCR\12.jpg'
 
 # Initialize the EasyOCR reader for English
 reader = easyocr.Reader(['en'], gpu=True)
