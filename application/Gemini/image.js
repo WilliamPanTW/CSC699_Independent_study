@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 // image path and type 
 function fileToPart(filePath){
-    const mimeType = mime.lookup(filePath);
+    const mimeType = mime.lookup(filePath);//token
     return{
         inlineData:{
             data: Buffer.from(fs.readFileSync(filePath)).toString("base64"),
@@ -25,7 +25,7 @@ async function run(){
     const prompt = "what is the scene number?";
     
     const filePath = 'D:\\CSC699_Independent_study\\application\\map\\test.jpg';
-    const imageParts = [data(filePath)]
+    const imageParts = [fileToPart(filePath)]
 
     // ... meaning Merging objects == [prompt,data,mimeType]
     const result = await model.generateContent([prompt,...imageParts]);

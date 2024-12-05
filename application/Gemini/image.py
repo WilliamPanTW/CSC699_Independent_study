@@ -1,4 +1,4 @@
-import os
+import os 
 from dotenv import load_dotenv
 import google.generativeai as genai
 
@@ -20,8 +20,8 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Generate content
 result = model.generate_content(
-    [myfile, "\n\n", "what is the scene,take and roll number?"]
+    [myfile, "what is the scene,take and roll number?"]
 )
 
 # Print the result
-print(f"{result.text=}")
+print(result.text)
