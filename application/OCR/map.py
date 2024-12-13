@@ -17,7 +17,7 @@ def calculate_distance(point1, point2):
     return np.linalg.norm(point1 - point2)
 
 # Specify the image path
-image_path = 'D:\\CSC699_Independent_study\\application\\OCR\\12.jpg'
+image_path = 'D:\\CSC699_Independent_study\\application\\OCR\\1.jpg'
 
 # Initialize the EasyOCR reader for English
 reader = easyocr.Reader(['en'], gpu=True)
