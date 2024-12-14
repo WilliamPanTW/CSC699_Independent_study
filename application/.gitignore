@@ -1,6 +1,0 @@
-*.mp4
-node_modules/
-myenv/
-.vscode/
-__pycache__/
-.env
