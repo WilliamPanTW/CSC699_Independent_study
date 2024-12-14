@@ -2,7 +2,8 @@
 This is a automated system that detects information from clapper Board(AKA Slate) in video and renames it according with user input. 
 
 ## DEMO
-<video src="assets/play.mov" width="512" controls></video>
+https://github.com/user-attachments/assets/5bb73674-3eaa-4002-bc16-2a8dbacc99fa
+
 
 ## Motivation
 Renaming files manually is a tedious and time-consuming task, especially working on large cinema projects. This manual process consumes hours of valuable time and disrupts post-production workflows, leaving less time for creative storytelling and editing.
